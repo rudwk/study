@@ -1,0 +1,218 @@
+/* 기본 스타일 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+h1, h2, h3 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+button {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button.secondary {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+button.secondary:hover {
+  background-color: #ddd;
+}
+
+button.danger {
+  background-color: #f44336;
+}
+
+button.danger:hover {
+  background-color: #d32f2f;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+/* 탭 스타일 */
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background-color: white;
+  border-bottom: 2px solid #4CAF50;
+  font-weight: bold;
+}
+
+/* 인증 폼 스타일 */
+.auth-form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+#user-info {
+  display: flex;
+  align-items: center;
+}
+
+#username-display {
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.error-message {
+  color: #f44336;
+  margin-top: 10px;
+}
+
+.success-message {
+  color: #4CAF50;
+  margin-top: 10px;
+}
+
+/* 메모 스타일 */
+.memo-actions {
+  margin-bottom: 20px;
+}
+
+#memo-list-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.memo-item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.memo-item:hover {
+  background-color: #f9f9f9;
+}
+
+.memo-item:last-child {
+  border-bottom: none;
+}
+
+.memo-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.memo-date {
+  font-size: 12px;
+  color: #777;
+}
+
+.memo-content-preview {
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+#memo-editor {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.editor-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.editor-buttons button {
+  flex: 1;
+  margin: 0 5px;
+}
+
+.editor-buttons button:first-child {
+  margin-left: 0;
+}
+
+.editor-buttons button:last-child {
+  margin-right: 0;
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.memo-item-actions {
+  display: flex;
+  margin-top: 10px;
+}
+
+.memo-item-actions button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+}

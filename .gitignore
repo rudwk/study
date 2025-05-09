@@ -1,0 +1,9 @@
+#폴더
+*/node_modules
+*/*/node_modules
+/webChat/node_modules
+
+#파일
+*/package*.json
+*/.env
+*/docker-*

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="user-id" placeholder="아이디"><br>
+  <input type="text" id="user-pw" placeholder="비밀번호"><br>
+  <button onclick="sendData()">DB에 값 집어넣기</button>
+  <br>
+  <br>
+  <input type="search" id="find-id" placeholder="아이디"><br>
+  <button onclick="find_pw()">비밀번호 찾기</button>
+
+  <script>
+    async function sendData() {
+      const id = document.getElementById("user-id").value;
+      const pw = document.getElementById("user-pw").value;
+
+      if(!id || !pw){
+        alert('아이디와 비밀번호를 입력해 주세요');
+        return;
+      }
+
+      const res = await fetch('/DBinput', {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          id: id,
+          pw: pw
+        })
+      });
+
+      const resj = await res.json()
+      alert(`${res.status}: ${resj.message}`);
+    }
+
+    async function find_pw() {
+      const id = document.getElementById('find-id').value;
+
+      if(!id) alert('아이디를 입력하여 주십시오');
+
+      const res = await fetch('/findPw', {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({id: id})
+      });
+
+      const resj = res.json();
+      alert(`당신의 비밀번호: ${res.password}`);
+    }
+  </script>
+</body>
+</html>
