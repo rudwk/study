@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가입 신청</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+</head>
+<body>
+
+<div class="container">
+    <h2>가입 신청</h2>
+    <input type="text" id="id" placeholder="아이디 입력" required>
+    <input type="password" id="pw" placeholder="비밀번호 입력" required>
+    <button onclick="register()">가입하기</button>
+    <div class="message" id="message"></div>
+</div>
+
+<script>
+    async function register() {
+        const id = document.getElementById("id").value;
+        const pw = document.getElementById("pw").value;
+        const message = document.getElementById("message");
+
+        if (!id || !pw) {
+            message.style.color = "red";
+            message.innerText = "아이디와 비밀번호를 입력하세요.";
+            return;
+        }
+
+        const response = await fetch("/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id, pw })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            message.style.color = "green";
+            message.innerText = result.message;
+        } else {
+            message.style.color = "red";
+            message.innerText = result.message;
+        }
+}
+</script>
+
+</body>
+</html>
