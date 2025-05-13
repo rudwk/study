@@ -17,7 +17,7 @@ async function signup() {
   });
 
   const resj = await res.json()
-  alert(`${res.status}: ${resj.message}`);
+  alert(`${res.status}: ${resj.message}, token: ${resj.token}`);
 }
 
 async function signin() {
