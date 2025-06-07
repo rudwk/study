@@ -56,10 +56,14 @@ router.post('/signin', (req, res) => {
     
     result.forEach((userData) => {
       console.log(userData.pw);
-      // if(bcrypt.compare(pw, userData.pw)) return res.status(200).json({message: "로그인되엇읍니다람쥐썬더"});
+      if(bcrypt.compare(pw, userData.pw)) {
+        
+
+        return res.status(200).json({message: "로그인되엇읍니다람쥐썬더"});
+      }
     });
 
-
+    return res.status(401).json({message: "비밀번호를 확인하여 주십시오"});
     // result_json = JSON.stringify(result);
     // if(bcrypt.compare(pw, result.pw)) return res.status(400).json({message: "비밀번호를 확인하여 주십시오"});
 

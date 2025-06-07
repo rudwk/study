@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>S3 파일 업로드</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #preview {
+      margin-top: 20px;
+      max-width: 400px;
+      display: none;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>📤 AWS S3 이미지 업로드</h1>
+  <form id="uploadForm">
+    <input type="file" name="file" accept="image/*" required>
+    <button type="submit">업로드</button>
+  </form>
+  <div id="result" class="hidden">
+    <p>✅ 업로드 완료! 이미지 주소:</p>
+    <a id="fileUrl" href="" target="_blank"></a>
+    <img id="preview" src="" alt="업로드된 이미지 미리보기">
+  </div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const resultDiv = document.getElementById('result');
+    const fileUrlElem = document.getElementById('fileUrl');
+    const previewImg = document.getElementById('preview');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      const response = await fetch('/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      if (data.fileUrl) {
+        fileUrlElem.href = data.fileUrl;
+        fileUrlElem.textContent = data.fileUrl;
+        previewImg.src = data.fileUrl;
+        previewImg.style.display = 'block';
+        resultDiv.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
