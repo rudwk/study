@@ -1,0 +1,102 @@
+[
+  {
+    "question": "STM32에서 GPIO 핀을 HIGH 상태로 설정하려면 어떤 함수와 어떤 파라미터를 사용해야 하는가?",
+    "options": [
+      "HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET)",
+      "HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET)",
+      "HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5)",
+      "HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_5)"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "UART 비동기 통신 시 사용하는 필수 핀은?",
+    "options": [
+      "SDA, SCL",
+      "TX, RX",
+      "MISO, MOSI",
+      "CLK, CS"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "DMA를 사용하는 주요 이유는?",
+    "options": [
+      "클럭 속도를 조정하기 위해",
+      "인터럽트를 제거하기 위해",
+      "CPU의 개입 없이 데이터를 이동시키기 위해",
+      "UART 속도를 높이기 위해"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "다음 중 12비트 ADC가 표현할 수 있는 최대 값은?",
+    "options": [
+      "1023",
+      "2048",
+      "4095",
+      "65535"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "다음 중 I2C 통신과 관련된 설명으로 틀린 것은?",
+    "options": [
+      "SDA와 SCL 2개의 선을 사용한다.",
+      "마스터와 슬레이브 장치 구조이다.",
+      "각 장치는 고유한 주소를 가진다.",
+      "데이터는 항상 동기식으로 한 방향으로만 흐른다."
+    ],
+    "answer": 3
+  },
+  {
+    "question": "HAL_UART_RxCpltCallback 함수의 주 목적은?",
+    "options": [
+      "UART 송신 완료 처리",
+      "UART 수신 완료 이벤트 처리",
+      "UART 초기화",
+      "UART 버퍼 비우기"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "EXTI는 어떤 기능을 위한 모듈인가?",
+    "options": [
+      "타이머 이벤트 발생",
+      "PWM 파형 생성",
+      "외부 인터럽트 감지",
+      "UART 송수신 처리"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "HAL_ADC_Start_DMA() 함수는 어떤 역할을 하는가?",
+    "options": [
+      "ADC를 polling 방식으로 시작",
+      "ADC를 인터럽트 방식으로 시작",
+      "ADC 값을 DMA로 자동 저장 시작",
+      "ADC 컨버팅을 수동으로 종료"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "타이머를 PWM 모드로 시작하기 위한 함수는?",
+    "options": [
+      "HAL_TIM_PWM_Start()",
+      "HAL_TIM_Base_Start_IT()",
+      "HAL_TIM_OC_Start()",
+      "HAL_TIM_Encoder_Start()"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "비지도 학습(Unsupervised Learning)의 예로 적절한 것은?",
+    "options": [
+      "스팸 메일 분류",
+      "사진 속 개 고양이 분류",
+      "데이터 군집화",
+      "강화 학습 기반 게임 플레이"
+    ],
+    "answer": 2
+  }
+]
