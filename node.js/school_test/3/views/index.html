@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사원 관리 시스템</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .section-title {
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            margin: -15px -15px 15px -15px;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+        }
+        .form-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .form-col {
+            display: flex;
+            flex-direction: column;
+            min-width: 120px;
+        }
+        .form-col-inline {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            min-width: 150px;
+        }
+        label {
+            font-size: 12px;
+            margin-bottom: 3px;
+            color: #333;
+        }
+        input, select {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 12px;
+            width: 100px;
+        }
+        input[type="checkbox"] {
+            width: auto;
+        }
+        button {
+            background-color: #e0e0e0;
+            color: #333;
+            padding: 5px 15px;
+            border: 1px solid #999;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        button:hover {
+            background-color: #d0d0d0;
+        }
+        .btn-search {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-search:hover {
+            background-color: #45a049;
+        }
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+            padding: 3px 8px;
+            font-size: 11px;
+        }
+        .btn-delete:hover {
+            background-color: #da190b;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        th, td {
+            padding: 5px 8px;
+            text-align: center;
+            border: 1px solid #999;
+        }
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .search-results {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 3px;
+            display: none;
+            font-size: 14px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>사원 관리 시스템</h1>
+        
+        <div id="alert" class="alert"></div>
+        
+        <!-- 부서 등록 -->
+        <div class="section">
+            <div class="section-title">부서 등록</div>
+            <form id="dept-register-form">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>부서번호</label>
+                        <input type="text" id="dept-no-reg" name="dept_no" maxlength="4" required>
+                    </div>
+                    <div class="form-col">
+                        <label>부서명</label>
+                        <input type="text" id="dept-name-reg" name="dept_name" required>
+                    </div>
+                    <div class="form-col">
+                        <label>전화번호</label>
+                        <input type="text" id="dept-phone-reg" name="dept_phone">
+                    </div>
+                    <div class="form-col-inline">
+                        <input type="checkbox" id="dept-active-reg" name="dept_active" checked>
+                        <label for="dept-active-reg">운영 여부 (O/X)</label>
+                    </div>
+                    <button type="submit">등록</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 부서 조회 -->
+        <div class="section">
+            <div class="section-title">부서 조회</div>
+            <form id="dept-search-form">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>부서번호</label>
+                        <input type="text" id="dept-no-search" name="dept_no_search">
+                    </div>
+                    <div class="form-col">
+                        <label>부서명</label>
+                        <input type="text" id="dept-name-search" name="dept_name_search">
+                    </div>
+                    <div class="form-col">
+                        <label>전화번호</label>
+                        <input type="text" id="dept-phone-search" name="dept_phone_search">
+                    </div>
+                    <div class="form-col-inline">
+                        <input type="checkbox" id="dept-active-search" name="dept_active_search">
+                        <label for="dept-active-search">운영 여부 (O/X)</label>
+                    </div>
+                    <button type="submit" class="btn-search">조회</button>
+                </div>
+            </form>
+            
+            <div class="search-results">
+                <table id="dept-search-table">
+                    <thead>
+                        <tr>
+                            <th>부서번호</th>
+                            <th>부서명</th>
+                            <th>전화번호</th>
+                            <th>운영여부</th>
+                            <th>삭제</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dept-search-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 사원 등록 -->
+        <div class="section">
+            <div class="section-title">사원 등록</div>
+            <form id="emp-register-form">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>부서번호</label>
+                        <select id="emp-dept-reg" name="dept_no" required>
+                            <option value="">선택</option>
+                        </select>
+                    </div>
+                    <div class="form-col">
+                        <label>이름</label>
+                        <input type="text" id="emp-name-reg" name="emp_name" required>
+                    </div>
+                    <div class="form-col">
+                        <label>급여</label>
+                        <input type="number" id="emp-salary-reg" name="salary" required>
+                    </div>
+                    <button type="submit">등록</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 사원 조회 -->
+        <div class="section">
+            <div class="section-title">사원 조회</div>
+            <form id="emp-search-form">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label>부서번호</label>
+                        <select id="emp-dept-search" name="dept_no_search">
+                            <option value="">전체</option>
+                        </select>
+                    </div>
+                    <div class="form-col">
+                        <label>이름</label>
+                        <input type="text" id="emp-name-search" name="emp_name_search">
+                    </div>
+                    <div class="form-col">
+                        <label>급여</label>
+                        <input type="number" id="emp-salary-search" name="salary_search">
+                    </div>
+                    <button type="submit" class="btn-search">조회</button>
+                </div>
+            </form>
+            
+            <div class="search-results">
+                <table id="emp-search-table">
+                    <thead>
+                        <tr>
+                            <th>사원번호</th>
+                            <th>이름</th>
+                            <th>급여</th>
+                            <th>이름수정</th>
+                            <th>삭제</th>
+                        </tr>
+                    </thead>
+                    <tbody id="emp-search-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let departments = [];
+        let employees = [];
+        let empNoCounter = 1;
+
+        // 초기 데이터 설정
+        document.addEventListener('DOMContentLoaded', function() {
+            departments = [
+                { dept_no: '1234', dept_name: '영업부', dept_phone: '0421212', dept_active: true }
+            ];
+            
+            employees = [
+                { emp_no: 1, emp_name: '홍길동', dept_no: '1234', salary: 500000 }
+            ];
+            
+            empNoCounter = 2;
+            updateDepartmentSelects();
+            searchDepartments();
+            searchEmployees();
+        });
+
+        // 알림 메시지
+        function showAlert(message, type = 'success') {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        // 부서 선택 옵션 업데이트
+        function updateDepartmentSelects() {
+            const regSelect = document.getElementById('emp-dept-reg');
+            const searchSelect = document.getElementById('emp-dept-search');
+            
+            // 등록용 select
+            regSelect.innerHTML = '<option value="">선택</option>';
+            departments.forEach(dept => {
+                if (dept.dept_active) {
+                    const option = document.createElement('option');
+                    option.value = dept.dept_no;
+                    option.textContent = `${dept.dept_no} - ${dept.dept_name}`;
+                    regSelect.appendChild(option);
+                }
+            });
+            
+            // 조회용 select
+            searchSelect.innerHTML = '<option value="">전체</option>';
+            departments.forEach(dept => {
+                const option = document.createElement('option');
+                option.value = dept.dept_no;
+                option.textContent = `${dept.dept_no} - ${dept.dept_name}`;
+                searchSelect.appendChild(option);
+            });
+        }
+
+        // 부서 등록
+        document.getElementById('dept-register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = {
+                dept_no: formData.get('dept_no'),
+                dept_name: formData.get('dept_name'),
+                dept_phone: formData.get('dept_phone'),
+                dept_active: formData.get('dept_active') === 'on'
+            };
+            
+            if (departments.find(d => d.dept_no === data.dept_no)) {
+                showAlert('이미 존재하는 부서 번호입니다.', 'error');
+                return;
+            }
+            
+            departments.push(data);
+            updateDepartmentSelects();
+            searchDepartments();
+            showAlert('부서가 등록되었습니다.');
+            e.target.reset();
+            document.getElementById('dept-active-reg').checked = true;
+        });
+
+        // 부서 조회
+        document.getElementById('dept-search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            searchDepartments();
+        });
+
+        function searchDepartments() {
+            const deptNo = document.getElementById('dept-no-search').value;
+            const deptName = document.getElementById('dept-name-search').value;
+            const deptPhone = document.getElementById('dept-phone-search').value;
+            const activeOnly = document.getElementById('dept-active-search').checked;
+            
+            let filtered = departments.filter(dept => {
+                if (deptNo && !dept.dept_no.includes(deptNo)) return false;
+                if (deptName && !dept.dept_name.includes(deptName)) return false;
+                if (deptPhone && !dept.dept_phone.includes(deptPhone)) return false;
+                if (activeOnly && !dept.dept_active) return false;
+                return true;
+            });
+            
+            const tbody = document.getElementById('dept-search-tbody');
+            tbody.innerHTML = '';
+            
+            filtered.forEach(dept => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${dept.dept_no}</td>
+                    <td>${dept.dept_name}</td>
+                    <td>${dept.dept_phone || ''}</td>
+                    <td>${dept.dept_active ? 'O' : 'X'}</td>
+                    <td><button class="btn-delete" onclick="deleteDepartment('${dept.dept_no}')">삭제</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 부서 삭제
+        function deleteDepartment(deptNo) {
+            if (!confirm('정말로 삭제하시겠습니까?')) return;
+            
+            // 해당 부서에 소속된 사원이 있는지 확인
+            const hasEmployees = employees.some(emp => emp.dept_no === deptNo);
+            if (hasEmployees) {
+                showAlert('해당 부서에 소속된 사원이 있어서 삭제할 수 없습니다.', 'error');
+                return;
+            }
+            
+            const index = departments.findIndex(d => d.dept_no === deptNo);
+            if (index !== -1) {
+                departments.splice(index, 1);
+                updateDepartmentSelects();
+                searchDepartments();
+                showAlert('부서가 삭제되었습니다.');
+            }
+        }
+
+        // 사원 등록
+        document.getElementById('emp-register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = {
+                emp_no: empNoCounter++,
+                emp_name: formData.get('emp_name'),
+                dept_no: formData.get('dept_no'),
+                salary: parseInt(formData.get('salary'))
+            };
+            
+            employees.push(data);
+            searchEmployees();
+            showAlert('사원이 등록되었습니다.');
+            e.target.reset();
+        });
+
+        // 사원 조회
+        document.getElementById('emp-search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            searchEmployees();
+        });
+
+        function searchEmployees() {
+            const deptNo = document.getElementById('emp-dept-search').value;
+            const empName = document.getElementById('emp-name-search').value;
+            const salary = document.getElementById('emp-salary-search').value;
+            
+            let filtered = employees.filter(emp => {
+                if (deptNo && emp.dept_no !== deptNo) return false;
+                if (empName && !emp.emp_name.includes(empName)) return false;
+                if (salary && emp.salary !== parseInt(salary)) return false;
+                return true;
+            });
+            
+            const tbody = document.getElementById('emp-search-tbody');
+            tbody.innerHTML = '';
+            
+            filtered.forEach(emp => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${emp.emp_no}</td>
+                    <td>${emp.emp_name}</td>
+                    <td>${emp.salary.toLocaleString()}</td>
+                    <td><button onclick="editEmployeeName(${emp.emp_no})">수정</button></td>
+                    <td><button class="btn-delete" onclick="deleteEmployee(${emp.emp_no})">삭제</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 사원 이름 수정
+        function editEmployeeName(empNo) {
+            const employee = employees.find(emp => emp.emp_no === empNo);
+            if (!employee) return;
+            
+            const newName = prompt('새로운 이름을 입력하세요:', employee.emp_name);
+            if (newName && newName.trim()) {
+                employee.emp_name = newName.trim();
+                searchEmployees();
+                showAlert('사원 이름이 수정되었습니다.');
+            }
+        }
+
+        // 사원 삭제
+        function deleteEmployee(empNo) {
+            if (!confirm('정말로 삭제하시겠습니까?')) return;
+            
+            const index = employees.findIndex(emp => emp.emp_no === empNo);
+            if (index !== -1) {
+                employees.splice(index, 1);
+                searchEmployees();
+                showAlert('사원이 삭제되었습니다.');
+            }
+        }
+
+        // 실시간 조회를 위한 이벤트 리스너
+        document.getElementById('emp-dept-search').addEventListener('change', searchEmployees);
+    </script>
+</body>
+</html>

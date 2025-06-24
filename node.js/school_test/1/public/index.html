@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>부서 및 사원 등록</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+
+    fieldset {
+      border: 2px solid #888;
+      margin-bottom: 20px;
+      padding: 15px;
+    }
+
+    legend {
+      font-weight: bold;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 150px;
+      margin: 5px;
+    }
+
+    button {
+      padding: 5px 10px;
+      margin: 2px;
+    }
+
+    label {
+      display: block;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 부서 등록 -->
+  <fieldset>
+    <legend>부서 등록</legend>
+    <label>부서번호: <input type="text" name="dept_no"></label>
+    <label>부서명: <input type="text" name="dept_name"></label>
+    <label>전화번호: <input type="text" name="dept_tel"></label>
+    <label><input type="checkbox" name="dept_active"> 영업 여부 (O/X)</label>
+    <button>등록</button>
+
+    <!-- 부서 목록 -->
+    <table>
+      <thead>
+        <tr>
+          <th>부서번호</th>
+          <th>부서명</th>
+          <th>전화번호</th>
+          <th>영업여부</th>
+          <th>삭제</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1234</td>
+          <td>영업부</td>
+          <td>0421212</td>
+          <td>O</td>
+          <td><button>삭제</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </fieldset>
+
+  <!-- 사원 등록 -->
+  <fieldset>
+    <legend>사원 등록</legend>
+    <label>부서번호: <input type="text" name="emp_dept_no"></label>
+    <label>이름: <input type="text" name="emp_name"></label>
+    <label>급여: <input type="number" name="emp_salary"></label>
+    <button>등록</button>
+
+    <!-- 사원 목록 -->
+    <table>
+      <thead>
+        <tr>
+          <th>사원번호</th>
+          <th>이름</th>
+          <th>급여</th>
+          <th>이름수정</th>
+          <th>삭제</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>홍길동</td>
+          <td>300000</td>
+          <td><button>수정</button></td>
+          <td><button>삭제</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </fieldset>
+
+</body>
+</html>

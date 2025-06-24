@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>부서 및 사원 등록</title>
+</head>
+<body>
+  <fieldset>
+    <legend>부서 등록</legend>
+    <label>부서번호: <input type="text" name="dept_no"></label>
+    <label>부서명: <input type="text" name="dept_name"></label>
+    <label>전화번호: <input type="text" name="dept_tel"></label>
+    <label><input type="checkbox" name="dept_active"> 영업 여부 (O/X)</label>
+    <button>등록</button>
+    <table>
+      <thead>
+        <tr><th>부서번호</th><th>부서명</th><th>전화번호</th><th>영업여부</th><th>삭제</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </fieldset>
+
+  <fieldset>
+    <legend>사원 등록</legend>
+    <label>부서번호: <input type="text" name="emp_dept_no"></label>
+    <label>이름: <input type="text" name="emp_name"></label>
+    <label>급여: <input type="number" name="emp_salary"></label>
+    <button>등록</button>
+    <table>
+      <thead>
+        <tr><th>사원번호</th><th>이름</th><th>급여</th><th>이름수정</th><th>삭제</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </fieldset>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const deptInputs = document.querySelectorAll('fieldset')[0].querySelectorAll('input');
+      const deptRegisterBtn = document.querySelectorAll('fieldset')[0].querySelector('button');
+      const deptTableBody = document.querySelectorAll('fieldset')[0].querySelector('tbody');
+
+      const empInputs = document.querySelectorAll('fieldset')[1].querySelectorAll('input');
+      const empRegisterBtn = document.querySelectorAll('fieldset')[1].querySelector('button');
+      const empTableBody = document.querySelectorAll('fieldset')[1].querySelector('tbody');
+
+      loadDepartments();
+      loadEmployees();
+
+      deptRegisterBtn.addEventListener('click', async () => {
+        const dept_no = deptInputs[0].value;
+        const dept_name = deptInputs[1].value;
+        const cell_no = deptInputs[2].value;
+        const check = deptInputs[3].checked ? 1 : 0;
+
+        const res = await fetch('/departments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ dept_no, dept_name, cell_no, check })
+        });
+        if (res.ok) {
+          loadDepartments();
+          deptInputs.forEach(input => input.type === "checkbox" ? input.checked = false : input.value = '');
+        }
+      });
+
+      async function loadDepartments() {
+        const res = await fetch('/departments');
+        const data = await res.json();
+
+        deptTableBody.innerHTML = '';
+        data.forEach(dept => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${dept.DEPT_NO}</td>
+            <td>${dept.DEPT_NAME}</td>
+            <td>${dept.CELL_NO}</td>
+            <td>${dept.CHECK ? 'o' : 'x'}</td>
+            <td><button data-id="${dept.DEPT_NO}">삭제</button></td>
+          `;
+          deptTableBody.appendChild(row);
+        });
+
+        deptTableBody.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.dataset.id;
+            await fetch(`/departments/${id}`, { method: 'DELETE' });
+            loadDepartments();
+          });
+        });
+      }
+
+      empRegisterBtn.addEventListener('click', async () => {
+        const dept_no = empInputs[0].value;
+        const name = empInputs[1].value;
+        const salary = empInputs[2].value;
+
+        const res = await fetch('/employees', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ dept_no, name, salary })
+        });
+        if (res.ok) {
+          loadEmployees();
+          empInputs.forEach(input => input.value = '');
+        }
+      });
+
+      async function loadEmployees() {
+        const res = await fetch('/employees');
+        const data = await res.json();
+
+        empTableBody.innerHTML = '';
+        data.forEach(emp => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${emp.P_NO}</td>
+            <td>${emp.NAME}</td>
+            <td>${emp.SALARY}</td>
+            <td><button disabled>수정</button></td>
+            <td><button data-id="${emp.P_NO}">삭제</button></td>
+          `;
+          empTableBody.appendChild(row);
+        });
+
+        empTableBody.querySelectorAll('td:last-child button').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.dataset.id;
+            await fetch(`/employees/${id}`, { method: 'DELETE' });
+            loadEmployees();
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
