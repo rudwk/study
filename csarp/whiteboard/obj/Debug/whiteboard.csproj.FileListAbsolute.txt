@@ -1,0 +1,10 @@
+C:\Users\B204\Desktop\asdf\whiteboard\bin\Debug\whiteboard.exe.config
+C:\Users\B204\Desktop\asdf\whiteboard\bin\Debug\whiteboard.exe
+C:\Users\B204\Desktop\asdf\whiteboard\bin\Debug\whiteboard.pdb
+C:\Users\B204\Desktop\asdf\whiteboard\obj\Debug\whiteboard.csproj.AssemblyReference.cache
+C:\Users\B204\Desktop\asdf\whiteboard\obj\Debug\whiteboard.Form1.resources
+C:\Users\B204\Desktop\asdf\whiteboard\obj\Debug\whiteboard.Properties.Resources.resources
+C:\Users\B204\Desktop\asdf\whiteboard\obj\Debug\whiteboard.csproj.GenerateResource.cache
+C:\Users\B204\Desktop\asdf\whiteboard\obj\Debug\whiteboard.csproj.CoreCompileInputs.cache
+C:\Users\B204\Desktop\asdf\whiteboard\obj\Debug\whiteboard.exe
+C:\Users\B204\Desktop\asdf\whiteboard\obj\Debug\whiteboard.pdb
