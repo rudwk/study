@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>사원 관리 시스템</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>사원 관리 시스템</h1>
+
+    <div id="alert" class="alert"></div>
+
+    <!-- 부서 등록 -->
+    <div class="section">
+      <div class="section-title">부서 등록</div>
+      <form id="dept-register-form">
+        <div class="form-row">
+          <input type="text" id="dept-no" name="dept_no" placeholder="부서번호" required />
+          <input type="text" id="dept-name" name="dept_name" placeholder="부서명" required />
+          <input type="text" id="dept-cell" name="cell_no" placeholder="전화번호" />
+          <label><input type="checkbox" id="dept-active" name="dept_active" checked /> 운영 여부</label>
+          <button type="submit">등록</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 부서 목록 -->
+    <div class="section">
+      <div class="section-title">부서 목록</div>
+      <table id="dept-table">
+        <thead>
+          <tr>
+            <th>부서번호</th>
+            <th>부서명</th>
+            <th>전화번호</th>
+            <th>운영여부</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+        <tbody id="dept-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- 사원 등록 -->
+    <div class="section">
+      <div class="section-title">사원 등록</div>
+      <form id="emp-register-form">
+        <div class="form-row">
+          <select id="emp-dept" name="dept_no" required></select>
+          <input type="text" id="emp-name" name="name" placeholder="이름" required />
+          <input type="number" id="emp-salary" name="salary" placeholder="급여" required />
+          <button type="submit">등록</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 사원 목록 -->
+    <div class="section">
+      <div class="section-title">사원 목록</div>
+      <table id="emp-table">
+        <thead>
+          <tr>
+            <th>사원번호</th>
+            <th>이름</th>
+            <th>급여</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+        <tbody id="emp-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function showAlert(message, type = 'success') {
+      const alert = document.getElementById('alert');
+      alert.textContent = message;
+      alert.className = `alert alert-${type}`;
+      alert.style.display = 'block';
+      setTimeout(() => {
+        alert.style.display = 'none';
+      }, 3000);
+    }
+
+    async function loadDepartments() {
+      const res = await fetch('/departments');
+      const departments = await res.json();
+      const tbody = document.getElementById('dept-tbody');
+      tbody.innerHTML = departments.map(renderDepartmentRow).join('');
+
+      // 부서 select 갱신
+      const deptSelect = document.getElementById('emp-dept');
+      deptSelect.innerHTML = departments
+        .map(d => `<option value="${d.dept_no}">${d.dept_name}</option>`)  
+        .join('');
+    }
+
+    async function loadEmployees() {
+      const res = await fetch('/employees');
+      const employees = await res.json();
+      const tbody = document.getElementById('emp-tbody');
+      tbody.innerHTML = employees.map(renderEmployeeRow).join('');
+    }
+
+    async function deleteDepartment(deptNo) {
+      if (!confirm('정말로 삭제하시겠습니까?')) return;
+      try {
+        const res = await fetch(`/departments/${deptNo}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('삭제 실패');
+        showAlert('부서가 삭제되었습니다.');
+        await loadDepartments();
+      } catch {
+        showAlert('부서 삭제 중 오류 발생', 'error');
+      }
+    }
+
+    async function deleteEmployee(p_no) {
+      if (!confirm('정말로 삭제하시겠습니까?')) return;
+      try {
+        const res = await fetch(`/employees/${p_no}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('삭제 실패');
+        showAlert('사원이 삭제되었습니다.');
+        await loadEmployees();
+      } catch {
+        showAlert('사원 삭제 중 오류 발생', 'error');
+      }
+    }
+
+    function renderDepartmentRow(dept) {
+      return `
+        <tr>
+          <td>${dept.dept_no}</td>
+          <td>${dept.dept_name}</td>
+          <td>${dept.cell_no || ''}</td>
+          <td>${dept.dept_active ? 'O' : 'X'}</td>
+          <td><button onclick="deleteDepartment('${dept.dept_no}')">삭제</button></td>
+        </tr>
+      `;
+    }
+
+    function renderEmployeeRow(emp) {
+      return `
+        <tr>
+          <td>${emp.p_no}</td>
+          <td>${emp.name}</td>
+          <td>${emp.salary.toLocaleString()}</td>
+          <td><button onclick="deleteEmployee(${emp.p_no})">삭제</button></td>
+        </tr>
+      `;
+    }
+
+    document.getElementById('dept-register-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = {
+        dept_no: document.getElementById('dept-no').value,
+        dept_name: document.getElementById('dept-name').value,
+        cell_no: document.getElementById('dept-cell').value,
+        dept_active: document.getElementById('dept-active').checked
+      };
+      console.log(data.dept_active);
+      try {
+        const res = await fetch('/departments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error('등록 실패');
+        showAlert('부서 등록 성공');
+        e.target.reset();
+        await loadDepartments();
+      } catch {
+        showAlert('부서 등록 실패', 'error');
+      }
+    });
+
+    document.getElementById('emp-register-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('emp-name').value,
+        salary: parseInt(document.getElementById('emp-salary').value),
+        dept_no: document.getElementById('emp-dept').value
+      };
+      try {
+        const res = await fetch('/employees', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error('등록 실패');
+        showAlert('사원 등록 성공');
+        e.target.reset();
+        await loadEmployees();
+      } catch {
+        showAlert('사원 등록 실패', 'error');
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadDepartments();
+      await loadEmployees();
+    });
+  </script>
+</body>
+</html>
